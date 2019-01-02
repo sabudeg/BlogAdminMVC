@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MvcHomework4.Models.Post>
+
+@{
+    ViewData["Title"] = "UpdatePost";
+}
+
+<h2>PostList</h2>
+
+<p>
+    <a asp-action="CreateNewPost">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PostId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                Operation
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BlogId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="postId" value="@item.PostId" />
+                        <button type="submit" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<a class="btn btn-primary" href="/Home/Main">Return to Main Menu</a>
