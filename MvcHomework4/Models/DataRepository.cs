@@ -19,7 +19,6 @@ namespace MvcHomework4.Models
 
         public Post GetPost(int key) => crudContext.Post.Find(key);
 
-
         public bool Validate(Login user)
         {
             var usr = this.crudContext.Login.Where(u => u.UserName == user.UserName && u.Password == user.Password).FirstOrDefault();

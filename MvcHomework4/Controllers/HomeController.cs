@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MvcHomework4.Models;
+using System.Web;
+
 
 namespace MvcHomework4.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CRUD_DBContext _crudctx;
-
         private IRepository repository;
 
         public HomeController(IRepository repo) => repository = repo;
@@ -22,12 +23,24 @@ namespace MvcHomework4.Controllers
             return View();
         }
 
+        int blogId { get; set; }
+
         [HttpPost]
         public ViewResult Index(Login user)
         {
             if (ModelState.IsValid)
             {
-                if (repository.Validate(user)) return View("Main");
+                if (repository.Validate(user)){
+
+                    HttpContext.Session.SetString("user", user.UserName);
+                    HttpContext.Session.SetInt32("id", user.UserId);
+
+                    ViewData["userName"] = HttpContext.Session.GetString("user");
+                    ViewData["uid"] = HttpContext.Session.GetString("user").Substring(4);
+
+                    return View("Main");
+                }
+
                 else return View();
             }
 
@@ -37,28 +50,32 @@ namespace MvcHomework4.Controllers
 
         public ViewResult Main()
         {
-            return View();
+            ViewData["uid"] = HttpContext.Session.GetString("user").Substring(4);
+            return View("Main");
         }
 
         public ViewResult PostList()
         {
-            return View(repository.PostData);
+            blogId = Int32.Parse(HttpContext.Session.GetString("user").Substring(4));
+            return View(repository.PostData.Where(b => b.BlogId == blogId));
         }
 
         public ViewResult CreateNewPost()
         {
+            @ViewData["uid"] = HttpContext.Session.GetString("user").Substring(4);
             return View("CreateNewPost");
         }
 
         public ViewResult UpdatePost()
         {
-            return View(repository.PostData);
-
+            blogId = Int32.Parse(HttpContext.Session.GetString("user").Substring(4));
+            return View(repository.PostData.Where(b => b.BlogId == blogId));
         }
 
         public ViewResult DeletePost()
         {
-            return View(repository.PostData);
+            blogId = Int32.Parse(HttpContext.Session.GetString("user").Substring(4));
+            return View(repository.PostData.Where(b => b.BlogId == blogId));
         }
 
         public ViewResult EditPost(int postId) =>
@@ -69,13 +86,14 @@ namespace MvcHomework4.Controllers
         public IActionResult Edit(Post post)
         {
             repository.EditPost(post);
-            return RedirectToAction(nameof(PostList));
+            return RedirectToAction("PostList");
         }
 
         public IActionResult Create(Post post)
         {
+            ViewData["uid"] = blogId;
             repository.CreatePost(post);
-            return RedirectToAction(nameof(PostList));
+            return RedirectToAction("PostList");
         }
 
         [HttpPost]
@@ -83,9 +101,8 @@ namespace MvcHomework4.Controllers
         {
             Post deletedPost = repository.Delete(postId);
             repository.Delete(postId);
-            return RedirectToAction(nameof(DeletePost));
+            return RedirectToAction("DeletePost");
         }
-
 
     }
 }

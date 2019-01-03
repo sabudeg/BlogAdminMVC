@@ -47,10 +47,6 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @*<form asp-controller="Home" asp-action="EditPost">
-                    <input type="hidden" value="@item.PostId" name="objectPostId" />
-                    <button type="submit" class="btn btn-danger">Update</button>
-                </form>*@
                 <a class="btn btn-danger" asp-action="EditPost" asp-route-postId="@item.PostId">UPDATE</a>
             </td>
         </tr>
@@ -59,4 +55,4 @@
     </tbody>
 </table>
 
-<a class="btn btn-primary" href="/Home/Main">Return to Main Menu</a>
+<a class="btn btn-primary" asp-action="Main">Return to Main Menu</a>

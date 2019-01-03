@@ -29,6 +29,7 @@ namespace MvcHomework4
         {
 
             services.AddMvc();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -41,13 +42,7 @@ namespace MvcHomework4
 
             services.AddDistributedMemoryCache();
 
-            services.AddSession(options =>
-            {
-                //options.IdleTimeout = TimeSpan.FromSeconds(10);
-                //options.Cookie.HttpOnly = true;
-                options.Cookie.Name = ".AdventureWorks.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-            });
+            services.AddSession();
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=CRUD_DB;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<CRUD_DBContext>(options => options.UseSqlServer(connection));

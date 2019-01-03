@@ -28,24 +28,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BlogId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-        </tr>
-}
-        
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BlogId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+            </tr>
+        }
+
     </tbody>
 </table>
 
-<a class="btn btn-primary" href="/Home/Main">Return to Main Menu</a>
+<a class="btn btn-primary" asp-action="Main">Return to Main Menu</a>

@@ -1,11 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Main";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<a class="btn btn-primary" href="/Home/CreateNewPost">CREATE NEW POST</a>
-<a class="btn btn-primary" href="/Home/PostList">LIST OF MY POST</a>
-<a class="btn btn-primary" href="/Home/UpdatePost">UPDATE POST</a>
-<a class="btn btn-primary" href="/Home/DeletePost">DELETE POST</a>
+@{ int bid = Int32.Parse(@ViewData["uid"].ToString()); }
+
+@*<h3>@HttpContext.Session.GetString("user").ToString();</h3>*@
+
+<h2>Active user: @ViewData["userName"]</h2>
+
+<h2>Active id: @bid</h2>
+
+<a class="btn btn-primary" asp-action="CreateNewPost">CREATE</a>
+<a class="btn btn-primary" asp-action="PostList">LIST OF MY POST</a>
+<a class="btn btn-primary" asp-action="UpdatePost">UPDATE POST</a>
+<a class="btn btn-primary" asp-action="DeletePost">DELETE POST</a>
 
